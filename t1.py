@@ -6,9 +6,9 @@ fake = Faker()
 
 # Conexão com o banco de dados
 conn = psycopg2.connect(
-    dbname="biblioteca",
+    dbname="Integrador",
     user="postgres",
-    password="pgadmin",
+    password="root",
     host="localhost",
     port="5432"
 )
@@ -24,24 +24,20 @@ Instituicoes = 10
 
 # Gerar e inserir dados na tabela Livro
 for x in range(Livro):
-    biblioteca.execute("INSERT INTO Livro (id_livro, nomelivro, autor, co_autor) VALUES (%s, %s, %s, %s) ", (x, fake.catch_phrase(), fake.name(), fake.name()))
+    biblioteca.execute("INSERT INTO Livro (id_livro, nomelivro, autor, co_autor, datacadastro, editora, datalacamento) VALUES (%s, %s, %s, %s, %s, %s, %s) ", (x, fake.catch_phrase(), fake.name(), fake.name(), fake.date(), fake.name(), fake.date()))
 
 # Gerar e inserir dados na tabela Universidade
 for x in range(Categoria):
     Categoria_id = random.randint(1, Livro)
-    biblioteca.execute("INSERT INTO Categoria (id_categoria, nomecategoria) VALUES (%s, %s)", (x, fake.name()))
+    biblioteca.execute("INSERT INTO Categoria (id_categoria, nomecategoria, descricao) VALUES (%s, %s, %s)", (x, fake.name(), fake.catch_phrase()))
 
 for x in range(Emprestimos):
     Emprestimo_id = random.randint(1, Livro)
-    biblioteca.execute("INSERT INTO Emprestimos (id_emprestimo, nome) VALUES (%s, %s)", (x, fake.name()))
-    
-for x in range(Usuario):
-    Usuario_id = random.randint(1, Livro)
-    biblioteca.execute("INSERT INTO Usuario (id_usuario, nome, sobrenome) VALUES (%s, %s, %s)", (x, fake.name(), fake.name()))
-                       
+    biblioteca.execute("INSERT INTO Emprestimos (id_emprestimo, nome, dataemprestimo, datadevolucao) VALUES (%s, %s, %s, %s)", (x, fake.name(),fake.date(), fake.date()))
+                    
 for x in range(Instituicoes):
     Instituicoes_id = random.randint(1, Livro)
-    biblioteca.execute("INSERT INTO Instituicoes (id_instituicao, nomeinstituicao) VALUES (%s, %s)", (x, fake.city()))
+    biblioteca.execute("INSERT INTO Instituicoes (id_instituicao, nomeinstituicao, email, cidade, senha) VALUES (%s, %s, %s, %s, %s)", (x, fake.city(), fake.ascii_company_email(), fake.city(), fake.building_number()))
 # Fechar a conexão
 # Confirmar as alterações e fechar a conexão
 conn.commit()
